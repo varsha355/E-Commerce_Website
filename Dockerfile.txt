@@ -1,20 +1,15 @@
-# Use the official Node.js image as the base image
-FROM node:14
+# Use an existing base image
+FROM ubuntu:20.04
 
-# Create and set the working directory in the container
-WORKDIR /usr/src/app
+# Set the working directory in the container
+WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application files to the working directory
+# Copy files from the host machine to the container
 COPY . .
 
-# Expose the port the app runs on
-EXPOSE 3000
+# Run a command to install dependencies or execute any setup tasks
+RUN apt-get update && \
+    apt-get install -y <package-name>
 
-# Command to run the application
-CMD ["node", "app.js"]
+# Specify the command to run when the container starts
+CMD ["./app"]
